@@ -52,13 +52,13 @@
        ],
        "react/jsx-uses-react": "error",
        "react/jsx-uses-vars": "error",
-       "closingSlash": "never",
-       "beforeSelfClosing": "always",
-       "afterOpening": "never",
-       "beforeClosing": "allow",
-      "ignoreEOLComments": true,
-      "exceptions": {
-        "Property": true
-        }
+      #  "closingSlash": 0,
+      #  "beforeSelfClosing": 2,
+      #  "afterOpening": 0,
+      #  "beforeClosing": 1,
+      # "ignoreEOLComments": 2,
+      # "exceptions": {
+      #   "Property": 2
+      #   }
    }
 }
