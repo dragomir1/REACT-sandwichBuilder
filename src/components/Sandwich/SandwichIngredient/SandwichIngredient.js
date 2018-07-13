@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // you need to install it in terminal
 import PropTypes from 'prop-types';
-import classes from './SandwichIngredient.scss';
+import classes from './SandwichIngredient.css';
 
 // inside a class you access props with 'this' keyword.
 // initialization is null even if something invalid is passed.
@@ -12,7 +12,10 @@ class SandwichIngredient extends Component {
 
     switch(this.props.type) {
     case('bread-top'):
-      ingredient = <div className={classes.Bread}></div>;
+      ingredient = <div className={classes.BreadTop}></div>;
+      break;
+    case('bread-bottom'):
+      ingredient = <div className={classes.BreadBottom}></div>;
       break;
     case('cheese'):
       ingredient = <div className={classes.Cheese}></div>;

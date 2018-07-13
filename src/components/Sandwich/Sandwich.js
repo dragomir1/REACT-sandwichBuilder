@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './Sandwich.scss';
+import classes from './Sandwich.css';
 // import PropTypes from 'prop-types';
 import SandwichIngredient from './SandwichIngredient/SandwichIngredient';
 
@@ -11,17 +11,22 @@ import SandwichIngredient from './SandwichIngredient/SandwichIngredient';
 const sandwich = (props) => {
   return (
     <div className={classes.Sandwich}>
-      <SandwichIngredient type='cheese' />
-      <SandwichIngredient type='tomato' />
-      <SandwichIngredient type='cheese' />
-      <SandwichIngredient type='tomato' />
-      <SandwichIngredient type='cheese' />
-      <SandwichIngredient type='tomato' />
-      <SandwichIngredient type='cheese' />
-      <SandwichIngredient type='cheese' />
-      <SandwichIngredient type='tomato' />
-      <SandwichIngredient type='tomato' />
-      <SandwichIngredient type='cheese' />
+      <SandwichIngredient type="bread-top" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="salad" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="tomato" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="cheese" />
+      <SandwichIngredient type="ham" />
+      <SandwichIngredient type="bread-bottom" />
     </div>
   );
 };
