@@ -1,0 +1,10 @@
+.Sandwich {
+  width: 90%;
+  border: 1px red solid;
+  margin: auto;
+  height: 300px;
+  overflow: scroll;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
