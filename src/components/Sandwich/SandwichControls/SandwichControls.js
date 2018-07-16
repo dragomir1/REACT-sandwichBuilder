@@ -20,6 +20,7 @@ const sandwichControls = (props) => (
         ingredientLabel={ctrl.label}
         added={() => props.ingredientAdded(ctrl.type)}
         removed={() => props.ingredientRemoved(ctrl.type)}
+        disabledRemoveButton={props.disabledRemoveButton[ctrl.type]}
       />
     ))}
 

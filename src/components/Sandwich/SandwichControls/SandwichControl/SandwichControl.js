@@ -8,11 +8,10 @@ const sandwichcontrol = (props) => (
     <button
       className={classes.Less}
       onClick={props.removed}
-      disabled={props.disabled}>Remove Ingredient</button>
+      disabled={props.disabledRemoveButton}>Remove Ingredient</button>
     <button
       className={classes.More}
-      onClick={props.added}
-      disabled={props.disabled}>Add Ingredient</button>
+      onClick={props.added}>Add Ingredient</button>
 
   </div>
 

@@ -52,14 +52,22 @@ class SandwichBuilder extends Component {
     const newPrice = oldPrice - priceAddition;
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
   }
-
+  // this disables the 'remove' button when there are no ingredients
   render () {
+    const disabledRemoveButton = {
+      ...this.state.ingredients
+    };
+    for (let key in disabledRemoveButton) {
+      disabledRemoveButton[key] = disabledRemoveButton[key] <= 0;
+    }
+
     return (
       <Aux>
         <Sandwich ingredients={this.state.ingredients}/>
         <SandwichControls
           ingredientAdded={this.addIngredientHandler}
-          ingredientRemoved={this.removeIngredientHandler} />
+          ingredientRemoved={this.removeIngredientHandler}
+          disabledRemoveButton={disabledRemoveButton} />
       </Aux>
     );
   }
