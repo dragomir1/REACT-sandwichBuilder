@@ -1,0 +1,56 @@
+.SandwichControl {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.Sandwichcontrol button {
+  display: block;
+  font: inherit;
+  padding: 5px;
+  margin: 0 5px;
+  width: 80px;
+  border: 1px solid ##006699;
+  cursor: pointer;
+  outline: none;
+}
+
+.SandwichControl button:disabled {
+  background-color: #ffff00;
+  border: 1px solid #b3b300;
+  color: #990000;
+  cursor: default;
+}
+
+.SandwichControl button:hover:disabled {
+  background-color: #ffff00;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.IngredientLabel {
+  padding: 10px;
+  font-weight: bold;
+  width: 80px;
+}
+
+.SandwichControl .Less {
+    background-color: #D39952;
+    color: white;
+}
+
+.SandwichControl .More {
+    background-color: #8F5E1E;
+    color: white;
+}
+
+.SandwichControl .Less:hover, .SandwichControl .Less:active {
+    background-color: #DAA972;
+    color: white;
+}
+
+.SandwichControl .More:hover,.SandwichControl .More:active {
+    background-color: #99703F;
+    color: white;
+}
