@@ -15,11 +15,27 @@ class SandwichBuilder extends Component {
   state = {
     ingredients: {
       salad: 0,
-      ham: 0,
+      tomato: 0,
       cheese: 0,
-      tomato: 0
+      ham: 0,
     },
-    totalPrice: 4
+    totalPrice: 4,
+    ordered: false
+  }
+
+  orderHandlerButton (ingredients) {
+    // we need to sum up all the values in the ingredients object.  we need turn the object into an array of the values.
+    // this will create an array of string entries.
+    // we map the array we created into the array we need.  we ONLY WANT THE VALUES. NOT THE NAMES.
+    const sum = Object.keys(ingredients).map(ingredientKey => {
+      // this retuns and array of values.
+      return ingredients[ingredientKey];
+      // this retuns the sum of all ingredients. 0 is the starting number. then the function is exectued on each element in the mapped array.  in the function we get the new sum and the individual element.  Sum is the constantly updated current sum.  EL is a number becuase its the vale we access from returning ingredients[ingredientKey];
+    }).reduce((sum, el) => {
+      return sum + el;
+    }, 0);
+    this.setState({ordered: sum > 0});
+    // return sum > 0;
   }
 
   addIngredientHandler = (type) => {
@@ -33,7 +49,8 @@ class SandwichBuilder extends Component {
     const oldPrice = this.state.totalPrice;
     const newPrice = oldPrice + priceAddition;
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-
+    // this is where we updated the orderHandlerButton to refect the sum of values.  to show we are ordfering a burger.
+    this.orderHandlerButton(updatedIngredients);
   }
 
   removeIngredientHandler = (type) => {
@@ -47,10 +64,11 @@ class SandwichBuilder extends Component {
       ...this.state.ingredients
     };
     updatedIngredients[type] = updatedCount;
-    const priceAddition = INGREDIENT_PRICES[type];
+    const priceDeduction = INGREDIENT_PRICES[type];
     const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice - priceAddition;
+    const newPrice = oldPrice - priceDeduction;
     this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
+    this.orderHandlerButton(updatedIngredients);
   }
   // this disables the 'remove' button when there are no ingredients
   render () {
@@ -58,6 +76,7 @@ class SandwichBuilder extends Component {
       ...this.state.ingredients
     };
     for (let key in disabledRemoveButton) {
+      {/*this is saying { salad: true, meat: false}*/}
       disabledRemoveButton[key] = disabledRemoveButton[key] <= 0;
     }
 
@@ -67,7 +86,10 @@ class SandwichBuilder extends Component {
         <SandwichControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
-          disabledRemoveButton={disabledRemoveButton} />
+          disabledRemoveButton={disabledRemoveButton}
+          price={this.state.totalPrice}
+          orderButton={this.state.ordered}/>
+
       </Aux>
     );
   }

@@ -13,20 +13,18 @@ const controls = [
 
 const sandwichControls = (props) => (
   <div className={classes.SandwichControls}>
-    <h2> Your Burger Price:<strong></strong></h2>
+    <h2> Your Burger Price: <strong>${props.price.toFixed(2)}</strong></h2>
     {controls.map(ctrl => (
       <BuildControl
         key={ctrl.label}
         ingredientLabel={ctrl.label}
         added={() => props.ingredientAdded(ctrl.type)}
         removed={() => props.ingredientRemoved(ctrl.type)}
-        disabledRemoveButton={props.disabledRemoveButton[ctrl.type]}
-      />
+        disabledRemoveButton={props.disabledRemoveButton[ctrl.type]} />
     ))}
-
-
-
-
+    <button
+      className={classes.OrderButton}
+      disabled={!props.orderButton}>ORDER</button>
   </div>
 
 
