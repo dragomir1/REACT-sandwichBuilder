@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Sandwich from '../../components/Sandwich/Sandwich';
 import SandwichControls from '../../components/Sandwich/SandwichControls/SandwichControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/OrderSummaryModal';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -20,7 +22,9 @@ class SandwichBuilder extends Component {
       ham: 0,
     },
     totalPrice: 4,
-    ordered: false
+    ordered: false,
+    // this will tell us if the order now button was clicked.
+    purchasing: false
   }
 
   orderHandlerButton (ingredients) {
@@ -36,6 +40,14 @@ class SandwichBuilder extends Component {
     }, 0);
     this.setState({ordered: sum > 0});
     // return sum > 0;
+  }
+
+  purchaseHandler = () => {
+    this.setState({purchasing: true});
+  }
+
+  cancelPurchaseHander = () => {
+    this.setState({purchasing: false});
   }
 
   addIngredientHandler = (type) => {
@@ -82,14 +94,18 @@ class SandwichBuilder extends Component {
 
     return (
       <Aux>
+        <Modal show={this.state.purchasing} cancelPurchaseHander={this.cancelPurchaseHander}>
+          <OrderSummaryModal ingredients={this.state.ingredients} />
+        </Modal>
+
         <Sandwich ingredients={this.state.ingredients}/>
         <SandwichControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabledRemoveButton={disabledRemoveButton}
           price={this.state.totalPrice}
-          orderButton={this.state.ordered}/>
-
+          orderButton={this.state.ordered}
+          ordered={this.purchaseHandler} />
       </Aux>
     );
   }

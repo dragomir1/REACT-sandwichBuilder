@@ -24,7 +24,8 @@ const sandwichControls = (props) => (
     ))}
     <button
       className={classes.OrderButton}
-      disabled={!props.orderButton}>ORDER</button>
+      disabled={!props.orderButton}
+      onClick={props.ordered}>ORDER</button>
   </div>
 
 
