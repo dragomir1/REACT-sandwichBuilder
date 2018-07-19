@@ -6,9 +6,9 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/OrderSummaryModal';
 
 const INGREDIENT_PRICES = {
-  salad: 0.5,
+  salad: 0.75,
   ham: 1.0,
-  tomato: 0.5,
+  tomato: 0.35,
   cheese: 0.75
 };
 
@@ -50,6 +50,13 @@ class SandwichBuilder extends Component {
     this.setState({purchasing: false});
   }
 
+  cancelOrderHandler = () => {
+    this.setState({purchasing: false});
+  };
+
+  continueOrderHandler = () => {
+    alert('continue');
+  }
   addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
     const updatedCount = oldCount + 1;
@@ -95,7 +102,10 @@ class SandwichBuilder extends Component {
     return (
       <Aux>
         <Modal show={this.state.purchasing} cancelPurchaseHander={this.cancelPurchaseHander}>
-          <OrderSummaryModal ingredients={this.state.ingredients} />
+          <OrderSummaryModal ingredients={this.state.ingredients}
+            cancelOrderHandler={this.cancelOrderHandler}
+            continueOrderHandler={this.continueOrderHandler}
+            price={this.state.totalPrice} />
         </Modal>
 
         <Sandwich ingredients={this.state.ingredients}/>
