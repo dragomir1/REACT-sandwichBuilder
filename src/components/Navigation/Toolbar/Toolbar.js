@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Toolbar.css';
 import Logo from '../../Logo/Logo';
+import Navitems from '../NavItems/NavItems';
 
 
 const toolbar = (props) => (
@@ -10,7 +11,7 @@ const toolbar = (props) => (
       <Logo />
     </div>
     <nav className={classes.DesktopOnly}>
-      ...
+      <Navitems />
     </nav>
   </header>
 );
