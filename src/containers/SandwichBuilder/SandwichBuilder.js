@@ -4,6 +4,8 @@ import Sandwich from '../../components/Sandwich/Sandwich';
 import SandwichControls from '../../components/Sandwich/SandwichControls/SandwichControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/OrderSummaryModal';
+import axios from '../../axiosOrders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENT_PRICES = {
   salad: 0.75,
@@ -24,7 +26,9 @@ class SandwichBuilder extends Component {
     totalPrice: 4,
     ordered: false,
     // this will tell us if the order now button was clicked.
-    purchasing: false
+    purchasing: false,
+    // this is for the spinner
+    loading: false
   }
 
   orderHandlerButton (ingredients) {
@@ -53,10 +57,35 @@ class SandwichBuilder extends Component {
   cancelOrderHandler = () => {
     this.setState({purchasing: false});
   };
-
+  // for firebase it's any node name of your choice plus .json.  JSON is the endpoint that needs to be targeted.
   continueOrderHandler = () => {
-    alert('continue');
+    this.setState({loading: true});
+    // alert('continue');
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Darth Vader',
+        address: {
+          street: '1234 rolling hill',
+          zipcode: '12345',
+          country: 'USA'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'super fast'
+    };
+    axios.post('/orders.json', order)
+      .then(response => {
+        // purchasing: false closes the model when clicked.
+        this.setState({loading: false, purchasing: false});
+      })
+      .catch(error => {
+        this.setState({loading: false, purchasing: false});
+      });
   }
+
+
   addIngredientHandler = (type) => {
     const oldCount = this.state.ingredients[type];
     const updatedCount = oldCount + 1;
@@ -99,16 +128,26 @@ class SandwichBuilder extends Component {
       disabledRemoveButton[key] = disabledRemoveButton[key] <= 0;
     }
 
+    let orderSummaryModal = <OrderSummaryModal
+      ingredients={this.state.ingredients}
+      cancelOrderHandler={this.cancelOrderHandler}
+      continueOrderHandler={this.continueOrderHandler}
+      price={this.state.totalPrice} />;
+
+    if(this.state.loading) {
+      orderSummaryModal = <Spinner />;
+    }
+
+    // let sandwich = this.props.error ? <p>loading error</p> : <Spinner />;
+
+
     return (
       <Aux>
         <Modal show={this.state.purchasing} cancelPurchaseHander={this.cancelPurchaseHander}>
-          <OrderSummaryModal ingredients={this.state.ingredients}
-            cancelOrderHandler={this.cancelOrderHandler}
-            continueOrderHandler={this.continueOrderHandler}
-            price={this.state.totalPrice} />
+          {orderSummaryModal}
         </Modal>
-
-        <Sandwich ingredients={this.state.ingredients}/>
+        <Sandwich
+          ingredients={this.state.ingredients} />
         <SandwichControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}

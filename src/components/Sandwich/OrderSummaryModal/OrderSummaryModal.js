@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
+import Spinner from '../../UI/Spinner/Spinner';
 // regular funtion body to execute some code.
 // object.keys transforms the object into an array of keys...salad, ham, etc..
 // we want to map this into an array of jsx elements at the end.

@@ -13,7 +13,7 @@ import Backdrop from '../Backdrop/Backdrop';
 class Modal extends Component {
 // this lifecycle hook controls the updateing of OrderSummary by changing the way the modal updates.
   shouldComponemtUpdate(nextProps, nextState) {
-    return nextProps.show !== this.props.show;
+    return nextProps.show !== this.props.show || nextProps.children !== this.prop.children;
   }
 
   UNSAFE_componentWillUpdate() {
