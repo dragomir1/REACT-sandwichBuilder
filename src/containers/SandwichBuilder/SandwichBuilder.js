@@ -6,6 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/OrderSummaryModal';
 import axios from '../../axiosOrders';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import errorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENT_PRICES = {
   salad: 0.75,
@@ -17,18 +18,30 @@ const INGREDIENT_PRICES = {
 class SandwichBuilder extends Component {
 
   state = {
-    ingredients: {
-      salad: 0,
-      tomato: 0,
-      cheese: 0,
-      ham: 0,
-    },
+    // we set ingredients to null becuase we are fetching it from the database.
+    ingredients: null,
     totalPrice: 4,
     ordered: false,
     // this will tell us if the order now button was clicked.
     purchasing: false,
     // this is for the spinner
-    loading: false
+    loading: false,
+    // this error prop is if the application is not useable at all.  it all breaks.
+    error: false
+  }
+  // this is a good way to fetch data.  Invoked once, only on the client (not on the server), immediately after the initial rendering occurs. At this point in the lifecycle, you can access any refs to your children (e.g., to access the underlying DOM representation).
+  // So, imagine a situation where you want to get a list of Comments for an Article. After the component is created you may want to go retrieve the list of comments from the server and then display them to the user.
+
+  // this is a request sent to the server to get data. the response should contain the ingredients object.
+  componentDidMount() {
+    axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
+      .then(response => {
+        // "data" is an object on the response.  data object contains our ingredients info.
+        this.setState({ingredients: response.data});
+      })
+      .catch(error => {
+        this.setState({error: true});
+      });
   }
 
   orderHandlerButton (ingredients) {
@@ -128,36 +141,43 @@ class SandwichBuilder extends Component {
       disabledRemoveButton[key] = disabledRemoveButton[key] <= 0;
     }
 
-    let orderSummaryModal = <OrderSummaryModal
-      ingredients={this.state.ingredients}
-      cancelOrderHandler={this.cancelOrderHandler}
-      continueOrderHandler={this.continueOrderHandler}
-      price={this.state.totalPrice} />;
+    //THIS SECTION OF CODE CHECKS TO SEE IF WE HAVE INGREDIENTS BEFORE WE RENDER ANYTHING THAT DEPENDS ON THE INGREDIENTS. NOW THAT THE INGREDIENTS ARE ON THE DATABASE. AND STATE INGREDIENTS IS SET TO NULL, WE WILL GET AN ERROR WHEN MAPPING THROUGH THEM.  SO WE NEED TO SHOW A SPINNER WHILE INGREDIENTS LOAD.  BOTH SANDWICH AND OrderSummaryModal BOTH USE INGEDIENTS.
+    let orderSummaryModal= null;
+    let sandwich = this.state.error ? <p>Unable to load</p> : <Spinner />;
 
+    if(this.state.ingredients) {
+      sandwich = (
+        <Aux>
+          <Sandwich
+            ingredients={this.state.ingredients} />
+          <SandwichControls
+            ingredientAdded={this.addIngredientHandler}
+            ingredientRemoved={this.removeIngredientHandler}
+            disabledRemoveButton={disabledRemoveButton}
+            price={this.state.totalPrice}
+            orderButton={this.state.ordered}
+            ordered={this.purchaseHandler} />
+        </Aux>
+      );
+      orderSummaryModal = <OrderSummaryModal
+        ingredients={this.state.ingredients}
+        cancelOrderHandler={this.cancelOrderHandler}
+        continueOrderHandler={this.continueOrderHandler}
+        price={this.state.totalPrice} />;
+    }
     if(this.state.loading) {
       orderSummaryModal = <Spinner />;
     }
-
-    // let sandwich = this.props.error ? <p>loading error</p> : <Spinner />;
-
 
     return (
       <Aux>
         <Modal show={this.state.purchasing} cancelPurchaseHander={this.cancelPurchaseHander}>
           {orderSummaryModal}
         </Modal>
-        <Sandwich
-          ingredients={this.state.ingredients} />
-        <SandwichControls
-          ingredientAdded={this.addIngredientHandler}
-          ingredientRemoved={this.removeIngredientHandler}
-          disabledRemoveButton={disabledRemoveButton}
-          price={this.state.totalPrice}
-          orderButton={this.state.ordered}
-          ordered={this.purchaseHandler} />
+        {sandwich}
       </Aux>
     );
   }
 }
-
-export default SandwichBuilder;
+// we pass axios so that we can use interceptors in the ErrorHandler component. we essentially wrap axios with errorHandler component
+export default errorHandler(SandwichBuilder, axios);

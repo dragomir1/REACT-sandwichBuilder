@@ -55,6 +55,7 @@
        ],
        "react/jsx-uses-react": "error",
        "react/jsx-uses-vars": "error",
+       "react/no-unescaped-entities": 0,
       #  "closingSlash": 0,
       #  "beforeSelfClosing": 2,
       #  "afterOpening": 0,
