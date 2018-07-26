@@ -73,33 +73,6 @@ class SandwichBuilder extends Component {
   };
   // for firebase it's any node name of your choice plus .json.  JSON is the endpoint that needs to be targeted.
   continueOrderHandler = () => {
-    // THIS IS BEING COMENTED OUT BECUASE WE ARE RROUTING TO THE CHECK OUT COMPONENT. I DONT' WANT TO STORE IN ON FIREBASE IMMEDIATLEY.
-
-    // this.setState({loading: true});
-    // // alert('continue');
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: 'Darth Vader',
-    //     address: {
-    //       street: '1234 rolling hill',
-    //       zipcode: '12345',
-    //       country: 'USA'
-    //     },
-    //     email: 'test@test.com'
-    //   },
-    //   deliveryMethod: 'super fast'
-    // };
-    // axios.post('/orders.json', order)
-    //   .then(response => {
-    //     // purchasing: false closes the model when clicked.
-    //     this.setState({loading: false, purchasing: false});
-    //   })
-    //   .catch(error => {
-    //     this.setState({loading: false, purchasing: false});
-    //   });
-
     // WHEN WE CLICK CONTINUE, WE HAVE ACCESS TO THESE SPECIAL "MATCH", "LOCATION", "HISTORY" PROPS.
     // THE PUSH PROP ALLOWS US TO SWITCH THE PAGE AND PUSH A NEW PAGE ONTO THE STACK OF PAGES.
     // BUILDING THE LOGIC TO PASS THE INGREDIENTS WE PICKED ON TO THE CHECKOUT CONTAINER USEING QUERY PARAMS.
@@ -115,6 +88,8 @@ class SandwichBuilder extends Component {
       // this sets the value for that property name [i].
        encodeURIComponent(this.state.ingredients[i]));
     }
+    // //  WE NEED TO PASS THE TOTAL PROCE ALONG WITH THE INGEDIENTS TO THE CHECKOUT CONTAINER.
+    queryParams.push('price=' + this.state.totalPrice);
     const queryString = queryParams.join('&');
     // once this is done we need to parse this info in the checkout component.
     this.props.history.push({
