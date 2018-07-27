@@ -25,7 +25,7 @@ class ContactData extends Component {
       // the totalprice needs to be passed from SandwichBuilder.
       price: this.props.price,
       customer: {
-        name: 'Darth Vader',
+        name: 'Larry David',
         address: {
           street: '1234 rolling hill',
           zipcode: '12345',
