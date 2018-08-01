@@ -11,7 +11,7 @@ import errorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 const INGREDIENT_PRICES = {
   salad: 0.75,
   ham: 1.0,
-  tomato: 0.35,
+  tomato: 0.38,
   cheese: 0.75
 };
 
