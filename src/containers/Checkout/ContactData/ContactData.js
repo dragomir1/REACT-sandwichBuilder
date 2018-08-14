@@ -21,6 +21,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        touched: false
       },
       street: {
         elementType: 'input',
@@ -33,6 +34,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        touched: false
       },
       zipcode: {
         elementType: 'input',
@@ -47,6 +49,7 @@ class ContactData extends Component {
           maxLength: 5
         },
         valid: false,
+        touched: false
       },
       country: {
         elementType: 'input',
@@ -59,6 +62,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        touched: false
       },
       email: {
         elementType: 'input',
@@ -71,6 +75,7 @@ class ContactData extends Component {
           required: true
         },
         valid: false,
+        touched: false
       },
       deliveryMethod: {
         elementType: 'select',
@@ -85,9 +90,11 @@ class ContactData extends Component {
         value: '',
         validation: {},
         valid: true,
+        touched: false
       }
     },
     loading: false,
+    FormIsValid: false
   }
   // we need the ingredients in contact data to be able to handle this request.  sow when users hit "order" we need to get the sandwich they ordered.
   orderHandler = (event) => {
@@ -149,8 +156,16 @@ class ContactData extends Component {
     updatedFormElement.value = event.target.value;
     updatedFormElement.valid = this.checkValidation(updatedFormElement.value, updatedFormElement.validation);
     updatedOrderForm[inputValue] = updatedFormElement;
+    updatedFormElement.touched = true;
     console.log(updatedFormElement);
     this.setState({orderForm: updatedOrderForm});
+
+    let formIsValid = true;
+
+    for(let formIds in updatedOrderForm) {
+      formIsValid = updatedOrderForm[formIds].valid && formIsValid;
+    }
+    this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
   }
 
 
@@ -171,9 +186,12 @@ class ContactData extends Component {
             elementType={formElement.config.elementType}
             elementConfig={formElement.config.elementConfig}
             value={formElement.config.value}
+            invalid={!formElement.config.valid}
+            touched={formElement.config.touched}
+            shouldValidate={formElement.config.validation}
             changed={(event) => this.inputChangedHandler(event, formElement.id)} />
         ))}
-        <Button btnType='Success'>Order</Button>
+        <Button btnType='Success' disabled={!this.state.formIsValid}>Order</Button>
       </form>
     );
     if (this.state.loading) {

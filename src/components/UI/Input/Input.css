@@ -26,9 +26,9 @@
   background-color: #ccc;
 }
 
-.InValid {
+.Invalid {
   border: 1px solid red;
-  background: 1px solid salmon;
+  background-color: pink;
 }
 
 .ValidationError {
