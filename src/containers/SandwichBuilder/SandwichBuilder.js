@@ -20,7 +20,7 @@ class SandwichBuilder extends Component {
   state = {
     // we set ingredients to null becuase we are fetching it from the database.
     ingredients: null,
-    totalPrice: 4,
+    totalPrice: 0,
     ordered: false,
     // this will tell us if the order now button was clicked.
     purchasing: false,
