@@ -1,13 +1,12 @@
-import * as actionTypes from '../actions/actions';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    ham: 0,
-    tomato: 0,
-    cheese: 0
-  },
-  totalPrice: 0,
+  ingredients: null,
+  totalPrice: 4,
+  // this is for the spinner
+  loading: false,
+  // this error prop is if the application is not useable at all.  it all breaks.
+  error: false
 };
 
 const INGREDIENT_PRICES = {
@@ -37,6 +36,17 @@ const reducer = (state = initialState, action) => {
       },
       totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
 
+    };
+  case actionTypes.SET_INGREDIENTS:
+    return {
+      ...state,
+      ingredients: action.ingredients,
+      error: false
+    };
+  case actionTypes.FETCH_INGREDIENTS_FAIL:
+    return {
+      ...state,
+      error: true
     };
   default:
     return state;

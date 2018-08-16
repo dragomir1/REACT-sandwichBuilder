@@ -8,7 +8,8 @@ import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/Order
 import axios from '../../axiosOrders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import errorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actionTypes from '../../store/actions/actions';
+// import * as actionTypes from '../../store/actions/actionTypes';
+import * as sandwichBuilderActions from '../../store/actions/index';
 
 
 class SandwichBuilder extends Component {
@@ -17,10 +18,6 @@ class SandwichBuilder extends Component {
 
     // this will tell us if the order now button was clicked.
     purchasing: false,
-    // this is for the spinner
-    loading: false,
-    // this error prop is if the application is not useable at all.  it all breaks.
-    error: false
   }
   // this is a good way to fetch data.  Invoked once, only on the client (not on the server), immediately after the initial rendering occurs. At this point in the lifecycle, you can access any refs to your children (e.g., to access the underlying DOM representation).
   // So, imagine a situation where you want to get a list of Comments for an Article. After the component is created you may want to go retrieve the list of comments from the server and then display them to the user.
@@ -28,14 +25,7 @@ class SandwichBuilder extends Component {
   // this is a request sent to the server to get data. the response should contain the ingredients object.
   componentDidMount() {
     // console.log(this.props);
-    // axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
-    //   .then(response => {
-    //     // "data" is an object on the response.  data object contains our ingredients info.
-    //     this.setState({ingredients: response.data});
-    //   })
-    //   .catch(error => {
-    //     this.setState({error: true});
-    //   });
+    this.props.onInitialIngredients();
   }
 
   orderHandlerButton (ingredients) {
@@ -133,7 +123,7 @@ class SandwichBuilder extends Component {
 
     //THIS SECTION OF CODE CHECKS TO SEE IF WE HAVE INGREDIENTS BEFORE WE RENDER ANYTHING THAT DEPENDS ON THE INGREDIENTS. NOW THAT THE INGREDIENTS ARE ON THE DATABASE. AND STATE INGREDIENTS IS SET TO NULL, WE WILL GET AN ERROR WHEN MAPPING THROUGH THEM.  SO WE NEED TO SHOW A SPINNER WHILE INGREDIENTS LOAD.  BOTH SANDWICH AND OrderSummaryModal BOTH USE INGEDIENTS.
     let orderSummaryModal= null;
-    let sandwich = this.state.error ? <p>Unable to load</p> : <Spinner />;
+    let sandwich = this.props.error ? <p>Unable to load</p> : <Spinner />;
 
     if(this.props.ings) {
       sandwich = (
@@ -155,9 +145,6 @@ class SandwichBuilder extends Component {
         continueOrderHandler={this.continueOrderHandler}
         price={this.props.totalPrice} />;
     }
-    if(this.state.loading) {
-      orderSummaryModal = <Spinner />;
-    }
 
     return (
       <Aux>
@@ -173,15 +160,16 @@ class SandwichBuilder extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingredients,
-    totalPrice: state.totalPrice
+    totalPrice: state.totalPrice,
+    error: state.error
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddIngredient: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-    onRemoveIngredient: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
-
+    onAddIngredient: (ingName) => dispatch(sandwichBuilderActions.addIngredient(ingName)),
+    onRemoveIngredient: (ingName) => dispatch(sandwichBuilderActions.removeIngredient(ingName)),
+    onInitialIngredients: () => dispatch(sandwichBuilderActions.initialIngredients())
   };
 };
 
