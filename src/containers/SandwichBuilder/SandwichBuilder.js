@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Aux from '../../hoc/Aux/Aux';
 import Sandwich from '../../components/Sandwich/Sandwich';
 import SandwichControls from '../../components/Sandwich/SandwichControls/SandwichControls';
@@ -7,21 +8,13 @@ import OrderSummaryModal from '../../components/Sandwich/OrderSummaryModal/Order
 import axios from '../../axiosOrders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import errorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import * as actionTypes from '../../store/actions/actions';
 
-const INGREDIENT_PRICES = {
-  salad: 0.75,
-  ham: 1.0,
-  tomato: 0.38,
-  cheese: 0.75
-};
 
 class SandwichBuilder extends Component {
 
   state = {
-    // we set ingredients to null becuase we are fetching it from the database.
-    ingredients: null,
-    totalPrice: 0,
-    ordered: false,
+
     // this will tell us if the order now button was clicked.
     purchasing: false,
     // this is for the spinner
@@ -34,15 +27,15 @@ class SandwichBuilder extends Component {
 
   // this is a request sent to the server to get data. the response should contain the ingredients object.
   componentDidMount() {
-    console.log(this.props);
-    axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
-      .then(response => {
-        // "data" is an object on the response.  data object contains our ingredients info.
-        this.setState({ingredients: response.data});
-      })
-      .catch(error => {
-        this.setState({error: true});
-      });
+    // console.log(this.props);
+    // axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
+    //   .then(response => {
+    //     // "data" is an object on the response.  data object contains our ingredients info.
+    //     this.setState({ingredients: response.data});
+    //   })
+    //   .catch(error => {
+    //     this.setState({error: true});
+    //   });
   }
 
   orderHandlerButton (ingredients) {
@@ -56,7 +49,7 @@ class SandwichBuilder extends Component {
     }).reduce((sum, el) => {
       return sum + el;
     }, 0);
-    this.setState({ordered: sum > 0});
+    return sum > 0;
     // return sum > 0;
   }
 
@@ -78,63 +71,60 @@ class SandwichBuilder extends Component {
     // BUILDING THE LOGIC TO PASS THE INGREDIENTS WE PICKED ON TO THE CHECKOUT CONTAINER USEING QUERY PARAMS.
     // we need to push a JS object.
     // we specify a seach query which is how we want to pass the ingredients. we need to encode the ingredients into the search query.
-    const queryParams = [];
+    // const queryParams = [];
     // looping through all the properites in the ingredients.
-    for (let i in this.state.ingredients) {
-      // encodeURIComponent IS A JS PROVIDED HELPER METHOD THAT ENCODES ELEMENTS SUCH THAT THEY CAN BE USED IN THE URL. we add a = sign becuase a key is = something in queryParams.
-      // this pushs the property name (i)
-      // this is an array that has a couple of strings: property name = propery value.  we now want to join that array of strings with the & sign.
-      queryParams.push(encodeURIComponent(i) + '=' +
-      // this sets the value for that property name [i].
-       encodeURIComponent(this.state.ingredients[i]));
-    }
-    // //  WE NEED TO PASS THE TOTAL PROCE ALONG WITH THE INGEDIENTS TO THE CHECKOUT CONTAINER.
-    queryParams.push('price=' + this.state.totalPrice);
-    const queryString = queryParams.join('&');
+    // for (let i in this.props.ings) {
+    //   // encodeURIComponent IS A JS PROVIDED HELPER METHOD THAT ENCODES ELEMENTS SUCH THAT THEY CAN BE USED IN THE URL. we add a = sign becuase a key is = something in queryParams.
+    //   // this pushs the property name (i)
+    //   // this is an array that has a couple of strings: property name = propery value.  we now want to join that array of strings with the & sign.
+    //   queryParams.push(encodeURIComponent(i) + '=' +
+    //   // this sets the value for that property name [i].
+    //    encodeURIComponent(this.props.ings[i]));
+    // }
+    // // //  WE NEED TO PASS THE TOTAL PROCE ALONG WITH THE INGEDIENTS TO THE CHECKOUT CONTAINER.
+    // queryParams.push('price=' + this.props.totalPrice);
+    // const queryString = queryParams.join('&');
     // once this is done we need to parse this info in the checkout component.
-    this.props.history.push({
-      pathname: '/checkout',
-      search: '?' + queryString
-    });
+    this.props.history.push('/checkout');
   }
 
 
-  addIngredientHandler = (type) => {
-    const oldCount = this.state.ingredients[type];
-    const updatedCount = oldCount + 1;
-    const updatedIngredients = {
-      ...this.state.ingredients
-    };
-    updatedIngredients[type] = updatedCount;
-    const priceAddition = INGREDIENT_PRICES[type];
-    const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice + priceAddition;
-    this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-    // this is where we updated the orderHandlerButton to refect the sum of values.  to show we are ordfering a burger.
-    this.orderHandlerButton(updatedIngredients);
-  }
-
-  removeIngredientHandler = (type) => {
-    const oldCount = this.state.ingredients[type];
-    {/*this prevents from further removing ingredients when you have no ingredients */}
-    if(oldCount <= 0) {
-      return;
-    }
-    const updatedCount = oldCount - 1;
-    const updatedIngredients = {
-      ...this.state.ingredients
-    };
-    updatedIngredients[type] = updatedCount;
-    const priceDeduction = INGREDIENT_PRICES[type];
-    const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice - priceDeduction;
-    this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-    this.orderHandlerButton(updatedIngredients);
-  }
+  // addIngredientHandler = (type) => {
+  //   const oldCount = this.props.ings[type];
+  //   const updatedCount = oldCount + 1;
+  //   const updatedIngredients = {
+  //     ...this.props.ings
+  //   };
+  //   updatedIngredients[type] = updatedCount;
+  //   const priceAddition = INGREDIENT_PRICES[type];
+  //   const oldPrice = this.state.totalPrice;
+  //   const newPrice = oldPrice + priceAddition;
+  //   this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
+  //   // this is where we updated the orderHandlerButton to refect the sum of values.  to show we are ordfering a burger.
+  //   this.orderHandlerButton(updatedIngredients);
+  // }
+  //
+  // removeIngredientHandler = (type) => {
+  //   const oldCount = this.props.ings[type];
+  //   {/*this prevents from further removing ingredients when you have no ingredients */}
+  //   if(oldCount <= 0) {
+  //     return;
+  //   }
+  //   const updatedCount = oldCount - 1;
+  //   const updatedIngredients = {
+  //     ...this.props.ings
+  //   };
+  //   updatedIngredients[type] = updatedCount;
+  //   const priceDeduction = INGREDIENT_PRICES[type];
+  //   const oldPrice = this.state.totalPrice;
+  //   const newPrice = oldPrice - priceDeduction;
+  //   this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
+  //   this.orderHandlerButton(updatedIngredients);
+  // }
   // this disables the 'remove' button when there are no ingredients
   render () {
     const disabledRemoveButton = {
-      ...this.state.ingredients
+      ...this.props.ings
     };
     for (let key in disabledRemoveButton) {
       {/*this is saying { salad: true, meat: false}*/}
@@ -145,25 +135,25 @@ class SandwichBuilder extends Component {
     let orderSummaryModal= null;
     let sandwich = this.state.error ? <p>Unable to load</p> : <Spinner />;
 
-    if(this.state.ingredients) {
+    if(this.props.ings) {
       sandwich = (
         <Aux>
           <Sandwich
-            ingredients={this.state.ingredients} />
+            ingredients={this.props.ings} />
           <SandwichControls
-            ingredientAdded={this.addIngredientHandler}
-            ingredientRemoved={this.removeIngredientHandler}
+            ingredientAdded={this.props.onAddIngredient}
+            ingredientRemoved={this.props.onRemoveIngredient}
             disabledRemoveButton={disabledRemoveButton}
-            price={this.state.totalPrice}
-            orderButton={this.state.ordered}
+            price={this.props.totalPrice}
+            orderButton={this.orderHandlerButton(this.props.ings)}
             ordered={this.purchaseHandler} />
         </Aux>
       );
       orderSummaryModal = <OrderSummaryModal
-        ingredients={this.state.ingredients}
+        ingredients={this.props.ings}
         cancelOrderHandler={this.cancelOrderHandler}
         continueOrderHandler={this.continueOrderHandler}
-        price={this.state.totalPrice} />;
+        price={this.props.totalPrice} />;
     }
     if(this.state.loading) {
       orderSummaryModal = <Spinner />;
@@ -179,5 +169,21 @@ class SandwichBuilder extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    ings: state.ingredients,
+    totalPrice: state.totalPrice
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddIngredient: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
+    onRemoveIngredient: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+
+  };
+};
+
 // we pass axios so that we can use interceptors in the ErrorHandler component. we essentially wrap axios with errorHandler component
-export default errorHandler(SandwichBuilder, axios);
+export default connect(mapStateToProps, mapDispatchToProps)(errorHandler(SandwichBuilder, axios));

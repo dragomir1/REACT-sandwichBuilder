@@ -5,6 +5,8 @@ import Button from '../../../components/UI/Button/Button';
 import axios from '../../../axiosOrders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import { connect } from 'react-redux';
+
 
 
 class ContactData extends Component {
@@ -105,9 +107,9 @@ class ContactData extends Component {
     }
     this.setState({loading: true});
     const order = {
-      ingredients: this.props.ingredients,
+      ingredients: this.props.ings,
       // the totalprice needs to be passed from SandwichBuilder.
-      price: this.props.price,
+      price: this.props.totalPrice,
       orderData: formData
     };
     axios.post('/orders.json', order)
@@ -206,4 +208,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ings: state.ingedients,
+    totalPrice: state.totalPrice
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);
