@@ -6,4 +6,8 @@ export {
 } from './sandwichBuilder';
 
 export {
+  purchaseSandwichWhenClickInContactForm,
+  purchaseSandwichSuccess,
+  purchaseSandwichFail,
+  purchaseSandwichStart
 } from './order';

@@ -6,6 +6,9 @@ import axios from '../../../axiosOrders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
+import ErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as sandwichOrderActions from '../../../store/actions/index';
+
 
 
 
@@ -95,7 +98,6 @@ class ContactData extends Component {
         touched: false
       }
     },
-    loading: false,
     FormIsValid: false
   }
   // we need the ingredients in contact data to be able to handle this request.  sow when users hit "order" we need to get the sandwich they ordered.
@@ -105,27 +107,14 @@ class ContactData extends Component {
     for (let formElementId in this.state.orderForm) {
       formData[formElementId] = this.state.orderForm[formElementId].value;
     }
-    this.setState({loading: true});
     const order = {
       ingredients: this.props.ings,
       // the totalprice needs to be passed from SandwichBuilder.
       price: this.props.totalPrice,
       orderData: formData
     };
-    axios.post('/orders.json', order)
-      .then(response => {
-        // purchasing: false closes the model when clicked.
-        this.setState({loading: false});
-        // this redirects to root page.  this works in conjunction with the <Route
-        // path={this.props.match.path + '/contact-data'}
-        // render={(props) => ( <ContactData ingredients={this.state.ingredients} price={this.state.totalPrice} {...props} /> )} /> in the checkout component.
-        this.props.history.push('/');
-      })
-      .catch(error => {
-        this.setState({loading: false});
-      });
-
-  }
+    this.props.onOrderSandwich(order);
+  };
 
   checkValidation(value, rules) {
     let isValid = true;
@@ -196,7 +185,7 @@ class ContactData extends Component {
         <Button btnType='Success' disabled={!this.state.formIsValid}>Order</Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
@@ -211,8 +200,15 @@ class ContactData extends Component {
 const mapStateToProps = state => {
   return {
     ings: state.ingedients,
-    totalPrice: state.totalPrice
+    totalPrice: state.totalPrice,
+    loading: state.loading
   };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrderSandwich: (orderData) => dispatch(sandwichOrderActions.purchaseSandwichWhenClickInContactForm(orderData))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandler(ContactData, axios));

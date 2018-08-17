@@ -55,6 +55,21 @@ class Checkout extends Component {
   }
 
   render () {
+    let summary = <Redirect to='/' />;
+    if(this.props.ings) {
+      summary = (
+        <div>
+          <SandwichCheckoutSummary
+            ingredients={this.props.ings}
+            checkoutCancelledHandler={this.checkoutCancelledHandler}
+            checkoutContinueHandler={this.checkoutContinueHandler} />
+          <Route
+            path={this.props.match.path + '/contact-data'}
+            component={ContactData} />
+        </div>
+      );
+    }
+
     {/*// this.props.match.path => this adds to the current path we are currently on.*/}
 
 
@@ -65,18 +80,7 @@ class Checkout extends Component {
     {/*we want to pass the ingredients we have in this component to contact data. we need to do this:  now that we're rendering manually, we can pass props to it.  see below*/}
 
     // once we hit the button in the contact data, we need to redirect. howerver, due to the way we're loading contact data by rendiering it manually, with the render method, we don't have the history method available. we can have access to the history method by passing props to render method and then distributing it to the ContactData component. see below.
-    return (
-      <div>
-        <SandwichCheckoutSummary
-          ingredients={this.props.ings}
-          checkoutCancelledHandler={this.checkoutCancelledHandler}
-          checkoutContinueHandler={this.checkoutContinueHandler} />
-        <Route
-          path={this.props.match.path + '/contact-data'}
-          component={ContactData} />
-      </div>
-
-    );
+    return summary;
   }
 }
 
