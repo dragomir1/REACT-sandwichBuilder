@@ -16,6 +16,12 @@ export const purchaseSandwichFail = (error) => {
   };
 };
 
+export const purchaseRedirectOnceUserClickedOrder = () => {
+  return {
+    type: actionTypes.PURCHASE_REDIRECT_AFTER_CLICKING_ORDER
+  };
+};
+
 export const purchaseSandwichStart = () => {
   return {
     type: actionTypes.PURCHASE_SANDWICH_START
@@ -27,7 +33,7 @@ export const purchaseSandwichWhenClickInContactForm = (orderData) => {
     dispatch(purchaseSandwichStart());
     axios.post('/orders.json', orderData)
       .then(response => {
-        dispatch(purchaseSandwichSuccess(response.data, orderData));
+        dispatch(purchaseSandwichSuccess(response.data.name, orderData));
       })
       .catch(error => {
         dispatch(purchaseSandwichFail(error));

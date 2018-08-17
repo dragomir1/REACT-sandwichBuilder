@@ -92,7 +92,7 @@ class ContactData extends Component {
             {value: 'rabbitSpeed', displayValue: 'rabbitSpeed'}
           ]
         },
-        value: '',
+        value: 'fastest',
         validation: {},
         valid: true,
         touched: false
@@ -199,9 +199,9 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingedients,
-    totalPrice: state.totalPrice,
-    loading: state.loading
+    ings: state.sandwichBuilderReducer.ingedients,
+    totalPrice: state.sandwichBuilderReducer.totalPrice,
+    loading: state.order.loading
   };
 };
 

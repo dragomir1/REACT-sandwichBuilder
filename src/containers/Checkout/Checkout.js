@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import SandwichCheckoutSummary from '../../components/SandwichOrders/SandwichCheckoutSummary/SandwichCheckoutSummary';
 import ContactData from './ContactData/ContactData';
 import { connect } from 'react-redux';
+import * as orderActions from '../../store/actions/index';
 
 // WE WANT TO USE THE ROUTER 'GLOBALLY'.  SO WE NEED TO WRAP OUR APP COMPONENT ON THE ROOT LEVEL.  INDEX.JS IS THE ROOT LEVEL.
 
 import { Route, Redirect } from 'react-router-dom';
 // the goal here is to show the summary of the burger with a continue or cancel button and then a contact form when they hit continue.
 class Checkout extends Component {
+
+  UNSAFE_componentWillMount () {
+    this.props.onRedirectOnceOrdered();
+  }
 
   // we now need to parse the query params of the ingredients.
 
@@ -57,8 +62,10 @@ class Checkout extends Component {
   render () {
     let summary = <Redirect to='/' />;
     if(this.props.ings) {
+      const purchaseRedirect = this.props.purchased ? <Redirect to='/' /> : null;
       summary = (
         <div>
+          {purchaseRedirect}
           <SandwichCheckoutSummary
             ingredients={this.props.ings}
             checkoutCancelledHandler={this.checkoutCancelledHandler}
@@ -86,10 +93,16 @@ class Checkout extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
+    ings: state.sandwichBuilderReducer.ingredients,
+    purchased: state.order.purchased
+  };
+};
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onRedirectOnceOrdered: () => dispatch(orderActions.purchaseRedirectOnceUserClickedOrder()),
   };
 };
 
 
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

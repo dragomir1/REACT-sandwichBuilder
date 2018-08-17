@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   orders: [],
   loading: false,
+  purchased: false
 };
 
 
@@ -16,6 +17,7 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       loading: false,
+      purchased: true,
       orders: state.orders.concat(newOrder)
 
     };
@@ -28,6 +30,12 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       loading: true
+    };
+  case actionTypes.PURCHASE_REDIRECT_AFTER_CLICKING_ORDER:
+    return {
+      ...state,
+      purchased: false
+
     };
   default:
     return state;

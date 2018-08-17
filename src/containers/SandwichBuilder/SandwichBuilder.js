@@ -159,9 +159,9 @@ class SandwichBuilder extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    totalPrice: state.totalPrice,
-    error: state.error
+    ings: state.sandwichBuilderReducer.ingredients,
+    totalPrice: state.sandwichBuilderReducer.totalPrice,
+    error: state.sandwichBuilderReducer.error
   };
 };
 

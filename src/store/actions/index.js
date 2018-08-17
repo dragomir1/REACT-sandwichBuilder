@@ -7,6 +7,7 @@ export {
 
 export {
   purchaseSandwichWhenClickInContactForm,
+  purchaseRedirectOnceUserClickedOrder,
   purchaseSandwichSuccess,
   purchaseSandwichFail,
   purchaseSandwichStart
