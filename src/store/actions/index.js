@@ -10,5 +10,9 @@ export {
   purchaseRedirectOnceUserClickedOrder,
   purchaseSandwichSuccess,
   purchaseSandwichFail,
-  purchaseSandwichStart
+  purchaseSandwichStart,
+  fetchOrdersStart,
+  fetchOrdersSuccess,
+  fetchOrdersFail,
+  fetchOrders
 } from './order';

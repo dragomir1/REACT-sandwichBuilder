@@ -13,3 +13,9 @@ export const PURCHASE_SANDWICH_FAIL = 'PURCHASE_SANDWICH_FAIL';
 
 //redicting once the user clicks order
 export const PURCHASE_REDIRECT_AFTER_CLICKING_ORDER = 'PURCHASE_REDIRECT_AFTER_CLICKING_ORDER';
+
+// fetching orders from backend
+export const FETCH_ORDERS_START = 'FETCH_ORDERS_START';
+export const FETCH_ORDERS_SUCCESS = 'FETCH_ORDERS_SUCCESS';
+export const FETCH_ORDERS_FAIL = 'FETCH_ORDERS_FAIL';
+export const FETCH_ORDERS = 'FETCH_ORDERS';
