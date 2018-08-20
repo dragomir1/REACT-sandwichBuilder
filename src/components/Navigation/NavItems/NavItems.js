@@ -7,6 +7,7 @@ const navitems = (props) => (
   <ul className={classes.Navitems}>
     <Navitem link='/' exact>Sandwich Builder</Navitem>
     <Navitem link='/orders'>Orders</Navitem>
+    <Navitem link='/auth'>Authenticate</Navitem>
   </ul>
 );
 
