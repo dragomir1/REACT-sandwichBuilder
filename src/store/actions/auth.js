@@ -7,6 +7,12 @@ export const authStart = () => {
   };
 };
 
+export const authRedirectPath = (path) => {
+  return {
+    type: actionTypes.SET_AUTH_REDIRECT_PATH,
+    path: path
+  };
+};
 
 export const authSuccess = (token, userId) => {
   return {
@@ -25,11 +31,11 @@ export const authFail = (error) => {
 
 export const authLogOut = () => {
   return {
-    type: actionTypes.AUTH_LOGOUT
+    type: actionTypes.AUTH_LOGOUT,
   };
 };
 
-// export const authLogoutSucces = () => {
+// export const authLogoutSuccess = () => {
 //   return {
 //     type: actionTypes.AUTH_LOGOUT
 //   };

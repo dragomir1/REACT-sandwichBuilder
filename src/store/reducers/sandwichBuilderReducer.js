@@ -7,7 +7,8 @@ const initialState = {
   // this is for the spinner
   loading: false,
   // this error prop is if the application is not useable at all.  it all breaks.
-  error: false
+  error: false,
+  buildingSandwich: false,
 };
 
 const INGREDIENT_PRICES = {
@@ -22,7 +23,8 @@ const addIngredient = (state, action) => {
   const updatedIngredients = updateObject(state.ingredients, updatedIngredient);
   const updatedState = {
     ingredients: updatedIngredients,
-    totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
+    totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+    buildingSandwich: true
   };
   return updateObject(state, updatedState);
 };
@@ -32,7 +34,8 @@ const removeIngredient = (state, action) => {
   const updatedIngredientsRemove = updateObject(state.ingredients, updatedIngredientRemove);
   const updatedStateRemove = {
     ingredients: updatedIngredientsRemove,
-    totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
+    totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+    buildingSandwich: true
   };
   return updateObject(state, updatedStateRemove);
 };
@@ -41,7 +44,8 @@ const setIngredient = (state, action) => {
   return updateObject(state, {
     ingredients: action.ingredients,
     error: false,
-    totalPrice: 4
+    totalPrice: 4,
+    buildingSandwich: false
   });
 };
 

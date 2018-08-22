@@ -3,9 +3,11 @@ import Layout from './hoc/Layout/Layout';
 import SandwichBuilder from './containers/SandwichBuilder/SandwichBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
+import Logout from './containers/Auth/Logout/Logout';
+
 // Route sets up routing.
 // Switch allows us to catch only one hit..but we need to switch order.
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Auth from './containers/Auth/Auth';
 
 class App extends Component {
@@ -19,8 +21,12 @@ class App extends Component {
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
             <Route path="/auth" component={Auth} />
+
             {/*only direct components loading through routes get the special 'history', 'match' props.  if it's a component in a direct component. they do not get these special props.  you need the {withRouter} hoc to add these props.*/}
-            <Route path="/" component={SandwichBuilder} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/" exact component={SandwichBuilder} />
+
+
 
           </Switch>
         </Layout>

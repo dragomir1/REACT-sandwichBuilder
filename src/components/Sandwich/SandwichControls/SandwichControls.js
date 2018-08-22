@@ -25,7 +25,7 @@ const sandwichControls = (props) => (
     <button
       className={classes.OrderButton}
       disabled={!props.orderButton}
-      onClick={props.ordered}>ORDER</button>
+      onClick={props.ordered}>{props.isAuth ? "ORDER" : "SIGN UP TO ORDER"}</button>
   </div>
 
 

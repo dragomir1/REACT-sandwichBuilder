@@ -7,7 +7,11 @@ import { connect } from 'react-redux';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from '../../axiosOrders';
+import { Redirect } from 'react-router-dom';
+
+
 class Auth extends Component {
+
 
   state = {
     controls: {
@@ -43,9 +47,14 @@ class Auth extends Component {
     isSignUp: true
   }
 
-  // UNSAFE_componentWillMount () {
-  //
-  // }
+
+  componentDidMount () {
+
+    if(!this.props.buildingSandwich && this.props.authRedirectPath !== '/') {
+      this.props.onSetAuthRedirectPath();
+    }
+  }
+
 
   checkValidation(value, rules) {
     let isValid = true;
@@ -123,8 +132,15 @@ class Auth extends Component {
       );
     }
 
+    let authRedirect = null;
+    if(this.props.isAuthenticated) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
+
+    }
+
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         {errorMessage}
         <form
           onSubmit={this.submitHandler}>
@@ -144,12 +160,16 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuthenticated: state.auth.token != null,
+    authRedirectPath: state.auth.authRedirectPath,
+    buildingSandwich: state.sandwichBuilderReducer.buildingSandwich
   };
 };
 
-const mapDispatchToProps = dispath => {
+const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password, isSignUp) => dispath(authActions.auth(email, password, isSignUp)),
+    onAuth: (email, password, isSignUp) => dispatch(authActions.auth(email, password, isSignUp)),
+    onSetAuthRedirectPath: () => dispatch(authActions.authRedirectPath('/')),
   };
 };
 
