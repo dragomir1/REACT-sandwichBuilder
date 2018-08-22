@@ -8,10 +8,11 @@ export const authStart = () => {
 };
 
 
-export const authSuccess = (authData) => {
+export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    authData: authData
+    idToken: token,
+    userId: userId
   };
 };
 
@@ -21,6 +22,35 @@ export const authFail = (error) => {
     error: error
   };
 };
+
+export const authLogOut = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
+  };
+};
+
+// export const authLogoutSucces = () => {
+//   return {
+//     type: actionTypes.AUTH_LOGOUT
+//   };
+// };
+
+// runnin asynch code.
+// export const checkAuthTimeout = (expirationTime) => {
+//   return {
+//     type: actionTypes.AUTH_CHECK_TIMEOUT,
+//     expirationTime: expirationTime
+//   };
+// };
+
+export const checkAuthTimeout = (expirationTime) => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(authLogOut());
+    }, expirationTime * 1000);
+  };
+};
+
 
 // this is the actionCreator that holds the asynch code.
 export const auth = (email, password, isSignUp) => {
@@ -39,12 +69,13 @@ export const auth = (email, password, isSignUp) => {
     axios.post(url, authData)
       .then(response => {
         console.log(response);
-        dispatch(authSuccess(response.data));
+        dispatch(authSuccess(response.data.idToken, response.data.localId));
+        dispatch(checkAuthTimeout(response.data.expiresIn));
 
       })
-      .catch(error => {
-        console.log(error);
-        dispatch(authFail(error));
+      .catch(err => {
+        console.log(err);
+        dispatch(authFail(err.response.data.error));
       });
   };
 };

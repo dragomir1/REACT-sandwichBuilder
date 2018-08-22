@@ -36,10 +36,10 @@ export const fetchOrdersFail = (error) => {
   };
 };
 
-export const fetchOrders = () => {
+export const fetchOrders = (token) => {
   return dispatch => {
     dispatch(fetchOrdersStart());
-    axios.get('/orders.json')
+    axios.get('/orders.json?auth=' + token)
       .then(response => {
         const fetchedOrders = [];
         for (let key in response.data) {
@@ -68,10 +68,10 @@ export const purchaseSandwichStart = () => {
   };
 };
 
-export const purchaseSandwichWhenClickInContactForm = (orderData) => {
+export const purchaseSandwichWhenClickInContactForm = (orderData, token) => {
   return dispatch => {
     dispatch(purchaseSandwichStart());
-    axios.post('/orders.json', orderData)
+    axios.post('/orders.json?auth=' + token, orderData)
       .then(response => {
         dispatch(purchaseSandwichSuccess(response.data.name, orderData));
       })

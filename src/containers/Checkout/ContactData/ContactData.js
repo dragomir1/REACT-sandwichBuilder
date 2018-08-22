@@ -113,7 +113,7 @@ class ContactData extends Component {
       price: this.props.totalPrice,
       orderData: formData
     };
-    this.props.onOrderSandwich(order);
+    this.props.onOrderSandwich(order, this.props.token);
   };
 
   checkValidation(value, rules) {
@@ -201,13 +201,15 @@ const mapStateToProps = state => {
   return {
     ings: state.sandwichBuilderReducer.ingedients,
     totalPrice: state.sandwichBuilderReducer.totalPrice,
-    loading: state.order.loading
+    loading: state.order.loading,
+    token: state.auth.token
+
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderSandwich: (orderData) => dispatch(sandwichOrderActions.purchaseSandwichWhenClickInContactForm(orderData))
+    onOrderSandwich: (orderData, token) => dispatch(sandwichOrderActions.purchaseSandwichWhenClickInContactForm(orderData, token))
   };
 };
 

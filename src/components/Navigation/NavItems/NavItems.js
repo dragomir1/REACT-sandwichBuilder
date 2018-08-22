@@ -6,8 +6,11 @@ import Navitem from './NavItem/NavItem';
 const navitems = (props) => (
   <ul className={classes.Navitems}>
     <Navitem link='/' exact>Sandwich Builder</Navitem>
-    <Navitem link='/orders'>Orders</Navitem>
-    <Navitem link='/auth'>Authenticate</Navitem>
+    {props.isAuthenticated ? <Navitem link='/orders'>Orders</Navitem> : null}
+    {!props.isAuthenticated
+      ? <Navitem link='/auth'>Authenticate</Navitem>
+      : <Navitem link='/logout'>Logout</Navitem>
+    }
   </ul>
 );
 
