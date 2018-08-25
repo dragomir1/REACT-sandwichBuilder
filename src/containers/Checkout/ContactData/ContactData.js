@@ -111,6 +111,7 @@ class ContactData extends Component {
       ingredients: this.props.ings,
       // the totalprice needs to be passed from SandwichBuilder.
       price: this.props.totalPrice,
+      userId: this.props.userId,
       orderData: formData
     };
     this.props.onOrderSandwich(order, this.props.token);
@@ -202,7 +203,8 @@ const mapStateToProps = state => {
     ings: state.sandwichBuilderReducer.ingedients,
     totalPrice: state.sandwichBuilderReducer.totalPrice,
     loading: state.order.loading,
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
 
   };
 };

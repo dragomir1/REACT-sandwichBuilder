@@ -84,7 +84,7 @@ export const auth = (email, password, isSignUp) => {
         // new Date(new Date().getTime() + response.data.expiresIn * 1000); this code turns the date back into an object
         const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
         localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('userId', response.data.locaId);
+        localStorage.setItem('userId', response.data.localId);
         dispatch(authSuccess(response.data.idToken, response.data.localId));
         dispatch(checkAuthTimeout(response.data.expiresIn));
 
@@ -107,7 +107,7 @@ export const authCheckState = () => {
       } else {
         const userId = localStorage.getItem('userId');
         dispatch(authSuccess(token, userId));
-        dispatch(checkAuthTimeout(expirationDate.getSeconds() - new Date().getSeconds()) / 1000);
+        dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
       }
     }
   };
