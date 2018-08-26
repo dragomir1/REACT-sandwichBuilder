@@ -11,6 +11,9 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import thunk from 'redux-thunk';
 
+import createSagaMiddleware from 'redux-saga';
+import { watchAuth } from './store/sagas/index';
+
 const rootReducer = combineReducers({
   sandwichBuilderReducer: sandwichBuilderReducer,
   order: orderReducer,
@@ -19,8 +22,11 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const sagaMiddleware = createSagaMiddleware();
 
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)));
+
+sagaMiddleware.run(watchAuth);
 
 
 const app = (

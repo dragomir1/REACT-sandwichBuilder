@@ -14,6 +14,12 @@ export const authRedirectPath = (path) => {
   };
 };
 
+export const logoutSucceed = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT,
+  };
+};
+
 export const authSuccess = (token, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
@@ -30,11 +36,11 @@ export const authFail = (error) => {
 };
 
 export const authLogOut = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expirationDate');
-  localStorage.removeItem('userId');
+  // localStorage.removeItem('token');
+  // localStorage.removeItem('expirationDate');
+  // localStorage.removeItem('userId');
   return {
-    type: actionTypes.AUTH_LOGOUT,
+    type: actionTypes.AUTH_INITIATE_LOGOUT,
   };
 };
 
