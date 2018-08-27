@@ -59,11 +59,15 @@ export const authLogOut = () => {
 // };
 
 export const checkAuthTimeout = (expirationTime) => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(authLogOut());
-    }, expirationTime * 1000);
+  return {
+    type: actionTypes.AUTH_CHECK_TIMEOUT,
+    expirationTime: expirationTime
   };
+  // return dispatch => {
+  //   setTimeout(() => {
+  //     dispatch(authLogOut());
+  //   }, expirationTime * 1000);
+  // };
 };
 
 
@@ -101,6 +105,8 @@ export const auth = (email, password, isSignUp) => {
       });
   };
 };
+
+
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem('token');
