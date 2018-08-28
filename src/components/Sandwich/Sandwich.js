@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 // we add a div to this sandwich wrapper to give it some styleing for the sandwich
 // there has to be a type since we're using PropTypes.
 const sandwich = (props) => {
-  console.log(props);
+  // console.log(props);
   // we need to get the ingredients object and pass it to the sandwich. we need to transform it into an array of the values of the ingredients in the sandwichbuilder.
   // OBJECT IS A DEFAULT JS OBJECT THAT HAS A KEYS METHOD. THIS EXTRACTS THE KEYS OF A GIVEN OBJECT AND TURNS THAT INTO AN ARRAY. SO IT GIVES YOU AN ARRAY OF THE KEYS.
 
@@ -32,7 +32,7 @@ const sandwich = (props) => {
   if(transformedIngredients.length === 0) {
     transformedIngredients = <div> Customize your delicious Sandwich!</div>;
   }
-  console.log(transformedIngredients);
+  // console.log(transformedIngredients);
 
   return (
     <div className={classes.Sandwich}>

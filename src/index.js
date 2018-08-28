@@ -12,7 +12,7 @@ import authReducer from './store/reducers/auth';
 import thunk from 'redux-thunk';
 
 import createSagaMiddleware from 'redux-saga';
-import { watchAuth } from './store/sagas/index';
+import { watchAuth, watchSandwichBuilder, watchOrder } from './store/sagas/index';
 
 const rootReducer = combineReducers({
   sandwichBuilderReducer: sandwichBuilderReducer,
@@ -20,13 +20,15 @@ const rootReducer = combineReducers({
   auth: authReducer
 });
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.NODE_ENV === "development" ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, sagaMiddleware)));
 
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchSandwichBuilder);
+sagaMiddleware.run(watchOrder);
 
 
 const app = (

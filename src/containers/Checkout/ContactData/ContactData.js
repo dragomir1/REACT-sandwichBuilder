@@ -8,8 +8,7 @@ import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
 import ErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as sandwichOrderActions from '../../../store/actions/index';
-
-
+import { checkValidation } from '../../../shared/validationLogic';
 
 
 class ContactData extends Component {
@@ -117,25 +116,6 @@ class ContactData extends Component {
     this.props.onOrderSandwich(order, this.props.token);
   };
 
-  checkValidation(value, rules) {
-    let isValid = true;
-
-    if(rules.required) {
-      isValid = value.trim() !== '' && isValid;
-    }
-
-    if(rules.minLength) {
-      isValid = value.length >= rules.minLength && isValid;
-    }
-
-    if(rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid;
-    }
-
-
-    return isValid;
-  }
-
   inputChangedHandler = (event, inputValue) => {
     console.log(event.target.value);
     const updatedOrderForm = {
@@ -146,7 +126,7 @@ class ContactData extends Component {
       ...updatedOrderForm[inputValue]
     };
     updatedFormElement.value = event.target.value;
-    updatedFormElement.valid = this.checkValidation(updatedFormElement.value, updatedFormElement.validation);
+    updatedFormElement.valid = checkValidation(updatedFormElement.value, updatedFormElement.validation);
     updatedOrderForm[inputValue] = updatedFormElement;
     updatedFormElement.touched = true;
     console.log(updatedFormElement);

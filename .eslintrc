@@ -27,6 +27,7 @@
        "react"
    ],
    "rules": {
+     "no-useless-escape": 0,
      "no-case-declarations": 0,
      "react/display-name": 0,
       "no-unused-vars": 0,

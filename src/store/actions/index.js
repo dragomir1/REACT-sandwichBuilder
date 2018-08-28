@@ -2,7 +2,8 @@ export {
   addIngredient,
   removeIngredient,
   fetchIngredientsFail,
-  initialIngredients
+  initialIngredients,
+  setIngredients
 } from './sandwichBuilder';
 
 export {
@@ -24,5 +25,7 @@ export {
   checkAuthTimeout,
   authCheckState,
   logoutSucceed,
-  authStart
+  authStart,
+  authSuccess,
+  authFail
 } from './auth';

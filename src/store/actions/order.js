@@ -37,25 +37,30 @@ export const fetchOrdersFail = (error) => {
 };
 
 export const fetchOrders = (token, userId) => {
-  return dispatch => {
-    dispatch(fetchOrdersStart());
-    // const queryParams = '?auth=' + token + '&orderBy'; 'orderBy' is a queryparam understood by firebase.
-    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
-    axios.get('/orders.json' + queryParams)
-      .then(response => {
-        const fetchedOrders = [];
-        for (let key in response.data) {
-          fetchedOrders.push({
-            ...response.data[key],
-            id: key
-          });
-        }
-        dispatch(fetchOrdersSuccess(fetchedOrders));
-      })
-      .catch(error => {
-        dispatch(fetchOrdersFail(error));
-      });
+  return {
+    type: actionTypes.FETCH_ORDERS,
+    token: token,
+    userId: userId
   };
+  // return dispatch => {
+  //   dispatch(fetchOrdersStart());
+  //   // const queryParams = '?auth=' + token + '&orderBy'; 'orderBy' is a queryparam understood by firebase.
+  //   const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+  //   axios.get('/orders.json' + queryParams)
+  //     .then(response => {
+  //       const fetchedOrders = [];
+  //       for (let key in response.data) {
+  //         fetchedOrders.push({
+  //           ...response.data[key],
+  //           id: key
+  //         });
+  //       }
+  //       dispatch(fetchOrdersSuccess(fetchedOrders));
+  //     })
+  //     .catch(error => {
+  //       dispatch(fetchOrdersFail(error));
+  //     });
+  // };
 };
 
 export const purchaseRedirectOnceUserClickedOrder = () => {
@@ -71,14 +76,19 @@ export const purchaseSandwichStart = () => {
 };
 
 export const purchaseSandwichWhenClickInContactForm = (orderData, token) => {
-  return dispatch => {
-    dispatch(purchaseSandwichStart());
-    axios.post('/orders.json?auth=' + token, orderData)
-      .then(response => {
-        dispatch(purchaseSandwichSuccess(response.data.name, orderData));
-      })
-      .catch(error => {
-        dispatch(purchaseSandwichFail(error));
-      });
+  return {
+    type: actionTypes.PURCH_SAND_CLICK_IN_CONTACTFORM,
+    orderData: orderData,
+    token: token
   };
+  // return dispatch => {
+  //   dispatch(purchaseSandwichStart());
+  //   axios.post('/orders.json?auth=' + token, orderData)
+  //     .then(response => {
+  //       dispatch(purchaseSandwichSuccess(response.data.name, orderData));
+  //     })
+  //     .catch(error => {
+  //       dispatch(purchaseSandwichFail(error));
+  //     });
+  // };
 };

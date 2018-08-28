@@ -30,14 +30,17 @@ export const fetchIngredientsFail = () => {
 };
 
 export const initialIngredients = () => {
-  return dispatch => {
-    axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
-      .then(response => {
-        // "data" is an object on the response.  data object contains our ingredients info.
-        dispatch(setIngredients(response.data));
-      })
-      .catch(error => {
-        dispatch(fetchIngredientsFail);
-      });
+  return {
+    type: actionTypes.INITIAL_INGREDIENTS,
   };
+  // return dispatch => {
+  //   axios.get('https://react-sandwich-builder.firebaseio.com/Ingredients.json')
+  //     .then(response => {
+  //       // "data" is an object on the response.  data object contains our ingredients info.
+  //       dispatch(setIngredients(response.data));
+  //     })
+  //     .catch(error => {
+  //       dispatch(fetchIngredientsFail);
+  //     });
+  // };
 };

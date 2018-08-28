@@ -16,9 +16,9 @@ class Modal extends Component {
     return nextProps.show !== this.props.show || nextProps.children !== this.prop.children;
   }
 
-  UNSAFE_componentWillUpdate() {
-    console.log('modal will update');
-  }
+  // UNSAFE_componentWillUpdate() {
+  //   // console.log('modal will update');
+  // }
 
   render () {
     return (
