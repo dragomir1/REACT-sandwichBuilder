@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Layout from './hoc/Layout/Layout';
 import SandwichBuilder from './containers/SandwichBuilder/SandwichBuilder';
-import Checkout from './containers/Checkout/Checkout';
-import Orders from './containers/Orders/Orders';
+// import Checkout from './containers/Checkout/Checkout';
+// import Orders from './containers/Orders/Orders';
 import Logout from './containers/Auth/Logout/Logout';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/index';
+import LazyLoading from './hoc/LazyLoading/LazyLoading';
 
 
 // Route sets up routing.
@@ -13,7 +14,18 @@ import * as actions from './store/actions/index';
 // we need to import withRouter in order for connect to work. otherwise it will break the router.  we then need to wrap it at the bottom when we export.
 // withRouter will enforce your props being passed down to the app component. you use this funcion when you use connect.
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import Auth from './containers/Auth/Auth';
+// import Auth from './containers/Auth/Auth';
+
+// LazyLoading. the argument we pass needs to be a function.
+const asyncCheckout = LazyLoading(() => {
+  return import ('./containers/Checkout/Checkout');
+});
+const asyncOrders = LazyLoading(() => {
+  return import ('./containers/Orders/Orders');
+});
+const asyncAuth = LazyLoading(() => {
+  return import ('./containers/Auth/Auth');
+});
 
 class App extends Component {
 
@@ -26,7 +38,7 @@ class App extends Component {
     let routes = (
       <Switch>
         <Route path="/" exact component={SandwichBuilder} />
-        <Route path="/auth" component={Auth} />
+        <Route path="/auth" component={asyncAuth} />
         <Redirect to="/" />
       </Switch>
     );
@@ -37,9 +49,9 @@ class App extends Component {
     if(this.props.isAuthenticated) {
       routes = (
         <Switch>
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/orders" component={Orders} />
-          <Route path="/auth" component={Auth} />
+          <Route path="/checkout" component={asyncCheckout} />
+          <Route path="/orders" component={asyncOrders} />
+          <Route path="/auth" component={asyncAuth} />
           <Route path="/" exact component={SandwichBuilder} />
           <Route path="/logout" component={Logout} />
           <Redirect to="/" />
