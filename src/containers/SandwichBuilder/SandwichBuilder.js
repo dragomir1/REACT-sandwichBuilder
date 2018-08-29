@@ -12,7 +12,7 @@ import errorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 
 
-class SandwichBuilder extends Component {
+export class SandwichBuilder extends Component {
 
   state = {
 
