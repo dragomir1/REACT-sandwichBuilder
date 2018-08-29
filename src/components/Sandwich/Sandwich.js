@@ -30,7 +30,7 @@ const sandwich = (props) => {
     }, []);
     // if its emtpy we can check for it.
   if(transformedIngredients.length === 0) {
-    transformedIngredients = <div> Customize your delicious Sandwich!</div>;
+    transformedIngredients = <div> Customize your Sandwich.</div>;
   }
   // console.log(transformedIngredients);
 

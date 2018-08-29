@@ -46,4 +46,5 @@
     background: red;
     /* background: linear-gradient(#bf3813, #c45e38); */
     margin: 1% auto;
+    border-radius: 15px;
 }

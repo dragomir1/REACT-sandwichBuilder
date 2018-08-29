@@ -7,6 +7,7 @@
 
 .Sandwichcontrol button {
   display: block;
+  border-radius: 5px;
   font: inherit;
   padding: 5px;
   margin: 0 5px;
@@ -37,20 +38,24 @@
 
 .SandwichControl .Less {
     background-color: #D39952;
+    border-radius: 5px;
     color: white;
 }
 
 .SandwichControl .More {
     background-color: #8F5E1E;
+    border-radius: 5px;
     color: white;
 }
 
 .SandwichControl .Less:hover, .SandwichControl .Less:active {
     background-color: #DAA972;
     color: white;
+    border-radius: 5px;
 }
 
 .SandwichControl .More:hover,.SandwichControl .More:active {
     background-color: #99703F;
     color: white;
+    border-radius: 5px;
 }

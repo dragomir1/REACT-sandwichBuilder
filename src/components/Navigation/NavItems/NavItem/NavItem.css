@@ -6,7 +6,7 @@
 }
 
 .Navitem a {
-  color: #8f5c2c;
+  color: #e6c5a5;
   text-decoration: none;
   height: 100%;
   box-sizing: border-box;
@@ -16,7 +16,7 @@
 .Navitem a:hover,
 .Navitem a:active,
 .Navitem a.active {
-  color: #40a4c8;
+  color: #aeeaff;
 }
 
 @@media (min-width: 500px) {
@@ -39,8 +39,8 @@
   .Navitem a:hover,
   .Navitem a:active,
   .Navitem a.active {
-    background-color: #8f5c2c;
-    border-bottom: 4px solid #40a4c8;
+    background-color: #e6c5a5;
+    border-bottom: 4px solid #aeeaff;
     color: white;
   }
 }

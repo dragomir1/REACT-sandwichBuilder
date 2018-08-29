@@ -5,15 +5,15 @@ import BuildControl from './SandwichControl/SandwichControl';
 
 const controls = [
   {label: 'Salad:', type: "salad" },
-  {label: 'Ham:', type: "ham" },
   {label: 'Tomato:', type: "tomato" },
   {label: 'Cheese:', type: "cheese" },
+  {label: 'Ham:', type: "ham" },
 ];
 
 
 const sandwichControls = (props) => (
   <div className={classes.SandwichControls}>
-    <h2> Your Burger Price: <strong>${props.price.toFixed(2)}</strong></h2>
+    <h2> Your Sandwich Price: <strong>${props.price.toFixed(2)}</strong></h2>
     {controls.map(ctrl => (
       <BuildControl
         key={ctrl.label}
