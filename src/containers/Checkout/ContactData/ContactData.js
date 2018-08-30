@@ -180,7 +180,7 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.sandwichBuilderReducer.ingedients,
+    ings: state.sandwichBuilderReducer.ingredients,
     totalPrice: state.sandwichBuilderReducer.totalPrice,
     loading: state.order.loading,
     token: state.auth.token,

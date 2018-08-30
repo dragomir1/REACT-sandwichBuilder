@@ -18,15 +18,16 @@
 
 .Ham {
     width: 80%;
-    height: 8%;
-    background: linear-gradient(#7f3608, #702e05);
+    height: 4%;
+    background: linear-gradient(#ffcccc, #ef7777);
     margin: 1% auto;
-    border-radius: 15px;
+    border-radius: 5px;
+    /* transform: translate3d(0,37px,0) rotateX(71deg) rotateZ(15deg); */
 }
 
 .Cheese {
     width: 80%;
-    height: 4.5%;
+    height: 2.5%;
     margin: 1% auto;
     background: linear-gradient(#f4d004, #d6bb22);
     border-radius: 20px;
@@ -34,15 +35,15 @@
 
 .Salad {
     width: 80%;
-    height: 7%;
+    height: 3%;
     margin: 1% auto;
     background: linear-gradient(#228c1d, #91ce50);
-    border-radius: 20px;
+    border-radius: 12px;
 }
 
 .Tomato {
     width: 80%;
-    height: 3%;
+    height: 3.5%;
     background: red;
     /* background: linear-gradient(#bf3813, #c45e38); */
     margin: 1% auto;

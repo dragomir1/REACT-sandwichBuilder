@@ -5,6 +5,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as orderActions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import classes from './Orders.css';
 
 
 class Orders extends Component {
@@ -35,6 +36,7 @@ class Orders extends Component {
     }
     return (
       <div>
+        <h3 className={classes.Orders}><strong>Your Orders:</strong></h3>
         {orders}
       </div>
     );

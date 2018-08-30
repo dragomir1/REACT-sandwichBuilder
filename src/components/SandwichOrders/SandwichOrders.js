@@ -33,7 +33,7 @@ const SandwichOrders = (props) => {
   return (
     <div className={classes.SandwichOrders}>
       <p> Ingredients: {ingredientOutput}</p>
-      <p> Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong></p>
+      <p> Price: <strong>${Number.parseFloat(props.price).toFixed(2)}</strong></p>
     </div>
   );
 };
